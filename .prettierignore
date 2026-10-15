@@ -1,0 +1,5 @@
+docs/
+AGENTS.md
+node_modules/
+coverage.out
+*.sum

@@ -1,0 +1,13 @@
+pre-commit:
+  commands:
+    prettier:
+      glob: "*.{md,json,yml,yaml}"
+      run: npx prettier --write {staged_files}
+      stage_fixed: true
+    gofumpt:
+      glob: "*.go"
+      run: gofumpt -l -w {staged_files}
+      stage_fixed: true
+    go-vet:
+      glob: "*.go"
+      run: go vet ./...

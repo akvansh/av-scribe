@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  format:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check formatting
+        run: npx prettier --check "**/*.{md,json,yml,yaml}"
+
+  go:
+    name: Go
+    runs-on: ubuntu-latest
+    if: hashFiles('go.mod') != ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Check gofumpt
+        run: |
+          go install mvdan.cc/gofumpt@latest
+          out=$(gofumpt -l .)
+          if [ -n "$out" ]; then echo "gofumpt needed:"; echo "$out"; exit 1; fi
+      - name: Vet
+        run: go vet ./...
+      - name: Test
+        run: go test -race -coverprofile=coverage.out ./...
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: coverage.out
+          fail_ci_if_error: true

@@ -1,0 +1,19 @@
+# Local-only planning and agent files
+docs/
+AGENTS.md
+
+# Go
+bin/
+*.test
+*.out
+coverage.out
+vendor/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Node (tooling only: prettier via npx)
+node_modules/

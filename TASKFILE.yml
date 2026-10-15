@@ -1,0 +1,54 @@
+version: "3"
+
+vars:
+  PKGS: ./...
+  PRETTIER_GLOB: "**/*.{md,json,yml,yaml}"
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+
+  fmt:
+    desc: Format Go, markdown and YAML
+    cmds:
+      - gofumpt -w .
+      - npx prettier --write {{.PRETTIER_GLOB}}
+
+  fmt:check:
+    desc: Verify formatting
+    cmds:
+      - |
+        out=$(gofumpt -l .)
+        if [ -n "$out" ]; then echo "gofumpt needed:"; echo "$out"; exit 1; fi
+      - npx prettier --check {{.PRETTIER_GLOB}}
+
+  vet:
+    desc: Run go vet
+    cmds:
+      - go vet {{.PKGS}}
+
+  test:
+    desc: Run tests with race detector and coverage
+    cmds:
+      - go test -race -coverprofile=coverage.out {{.PKGS}}
+
+  lint:
+    desc: Run golangci-lint
+    cmds:
+      - golangci-lint run
+
+  tidy:
+    desc: Tidy go modules
+    cmds:
+      - go mod tidy
+
+  check:
+    desc: Run all checks (fmt, vet, lint, test)
+    deps: [fmt:check, vet, lint, test]
+
+  hooks:
+    desc: Install git hooks (lefthook)
+    cmds:
+      - lefthook install
