@@ -1,21 +1,23 @@
 # Scribe
 
-> Structured logging for Go — a thin, ergonomic layer over the standard library's `log/slog`.
+> Fast, zero-dependency structured logging for Go.
 
 **Status: foundation.** The repo is being scaffolded; the Go module and public API are not
 published yet. Track progress in the roadmap below.
 
 ## Why Scribe
 
-`log/slog` is excellent but bare: no pretty console output, no typed field helpers, clunky
-context propagation, and no runtime level switching. Scribe keeps slog's interoperability and
-adds the ergonomics you'd expect from zap or zerolog — without forking the standard library.
+Scribe is a structured logging library for Go, built around a small handler core you can compose
+and extend. It ships the ergonomics you'd expect from zap or zerolog — typed fields, a pretty
+console, runtime level switching, and request-scoped loggers — with zero third-party dependencies
+and first-class interoperability with the standard library's `log/slog`.
 
-- **slog-native** — every logger exposes `*slog.Logger`; the whole ecosystem composes with it
+- **Extensible handlers** — a clean handler core; console, NDJSON, or bring your own
 - **Typed fields** — `Str`, `Int`, `Dur`, `Err` instead of bare `any` pairs
 - **Pretty console** — colored, aligned output for development; NDJSON for production
 - **Runtime level switching** — change levels without rebuilding the logger tree
 - **Context-aware** — `NewContext` / `FromContext` for request-scoped loggers
+- **slog interop** — bridge to and from `log/slog` so the wider ecosystem composes
 - **Zero dependencies** — stdlib only
 
 ## Install
@@ -65,13 +67,13 @@ propagation, JSON logging. They compile in CI so documentation never rots. Start
 
 ## Tooling
 
-| Command             | What it does                              |
-| ------------------- | ----------------------------------------- |
-| `task --list`       | List available tasks                      |
-| `task fmt`          | Format Go + markdown/YAML                 |
-| `task test`         | Tests with race detector + coverage       |
-| `task check`        | All checks (fmt, vet, lint, test)         |
-| `lefthook install`  | Enable git hooks (format + vet on commit) |
+| Command            | What it does                              |
+| ------------------ | ----------------------------------------- |
+| `task --list`      | List available tasks                      |
+| `task fmt`         | Format Go + markdown/YAML                 |
+| `task test`        | Tests with race detector + coverage       |
+| `task check`       | All checks (fmt, vet, lint, test)         |
+| `lefthook install` | Enable git hooks (format + vet on commit) |
 
 ## Roadmap
 

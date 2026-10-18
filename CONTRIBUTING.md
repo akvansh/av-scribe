@@ -34,8 +34,8 @@ task --list       # see available tasks
   `feat:`, `fix:`, `docs:`, `chore:`, `test:`, `perf:`
 - **Go**: `gofmt` formatted, stdlib only unless a dependency is well justified,
   table-driven tests, minimal comments (code should explain itself)
-- **API**: stays slog-compatible at the core (`Info(msg, attrs...)`) with typed field
-  constructors (`Str`, `Dur`, `Err`) inspired by zap
+- **API**: our own `Logger` with `Info(msg, attrs...)`-style calls and typed field
+  constructors (`Str`, `Int`, `Dur`, `Err`), with interop to and from `log/slog`.
 - **Markdown/YAML/JSON**: prettier formatted — hooks do this automatically on commit
 - **Scope**: one concern per PR; open an issue first for large changes (new handlers,
   dependencies, API breaks)
